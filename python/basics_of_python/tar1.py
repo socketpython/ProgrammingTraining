@@ -1,16 +1,3 @@
-"""
-תרגיל ראשון:
-1. 'l'
-2. 'o, Wo'
-3. 'Hello'
-4. 'o, World!'
-5. 'Hlo ol!'
-6. 'llo, W'
-7. 'r'
-8. '!dlroW ,olleH'
-"""
-
-
 def calc(num_a, num_b):
     if type(num_a) == bin:
         num_a = int(num_a, 2)
