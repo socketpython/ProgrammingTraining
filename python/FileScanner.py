@@ -6,6 +6,7 @@ import os
 extensions = {}
 res = ""
 counter = 0
+decor = 20
 
 parser = argparse.ArgumentParser(description="Gets paths of folders and return the count of file types")
 parser.add_argument('-d', type=str,
@@ -32,7 +33,7 @@ def going_through_dir(path, exts):
     return exts
  
 
-print(f"{'-' * 20}FileScanner{'-' * 20}")
+print(f"{'-' * decor}FileScanner{'-' * decor}")
 for folder in folders:
     with concurrent.futures.ThreadPoolExecutor() as executer:
         extensions = executer.submit(going_through_dir, folder, extensions).result()
@@ -47,4 +48,4 @@ for i in extensions.items():
     res += f"{ext.ljust(10)} - {amount} files ({percent}%)\n"
 
 print(res[:-1])
-print(f"{'-' * 51}")
+print(f"{'-' * (2 * decor + 11)}")
