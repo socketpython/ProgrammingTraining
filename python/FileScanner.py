@@ -9,8 +9,7 @@ counter = 0
 decor = 20
 
 parser = argparse.ArgumentParser(description="Gets paths of folders and return the count of file types")
-parser.add_argument('-d', type=str,
-                   help='Enter paths and between them ","')
+parser.add_argument('-d', type=str, help='Enter paths and between them ","')
 args = parser.parse_args()
 
 folders = args.d.split(",")
