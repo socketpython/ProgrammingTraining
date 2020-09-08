@@ -1,3 +1,5 @@
+# remeber to install pynput (pip install pynput)
+
 from pynput.keyboard import Key, Listener
 from pynput.mouse import Listener as mouse_listener
 import os
