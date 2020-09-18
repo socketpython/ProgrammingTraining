@@ -24,6 +24,7 @@ def change_password():
     """
     The function gets a valid password from the user and replace it with the last password
     """
+    
     new_password = input("Enter the new password: ")
     
     if len(new_password) >= 6 and sum(c.isdigit() for c in new_password) >= 2:
@@ -38,6 +39,7 @@ def check_card():
     """
     The function gets the user's personal number and checks if valid
     """
+    
     number = input("Enter your Hoger number: ")
     date = input("Enter the date when you Hoger was made (xx.xx.xxxx): ")
     gender = input("Enter you gender (Male/Female): ").lower()
