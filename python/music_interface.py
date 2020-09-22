@@ -8,8 +8,8 @@ import multiprocessing
 
 
 path = r"C:\Users\Elad_Levi\Desktop\Music" # enter here you music folder's path
-file_path = r"C:\Users\Elad_Levi\Desktop\Music\py_cache\names.txt" # enter here you music DB's path
-
+names_path = r"C:\Users\Elad_Levi\Desktop\Music\py_cache\names.txt" # enter here you music DB's path
+artists_path = r"C:\Users\Elad_Levi\Desktop\Music\py_cache\artists.txt" # enter here you artist DB's path
 options = ["Download YouTube video", "Show the music in the DB",
            "Play random music", "Delete song", "Play specific song",
            "Add artist", "Play music by artist",
@@ -17,14 +17,14 @@ options = ["Download YouTube video", "Show the music in the DB",
 
 
 def update_db(data):
-    global file_path
+    global names_path
 
     data.sort()
     res = ""
     for i in data:
         res += f"{i}\n"
     res = res[:-1]
-    with open(file_path, "w") as f:
+    with open(names_path, "w") as f:
         f.write(res)
 
 
@@ -62,9 +62,9 @@ def manage():
     The function is responsible for updating the database if a file is added
     """
     
-    global path, file_path
+    global path, names_path
     
-    with open(file_path, "r") as names_file:
+    with open(names_path, "r") as names_file:
         names = names_file.read().splitlines()
 
     files = []
@@ -124,8 +124,8 @@ def show_db():
     Prints the database and returns the list of songs
     """
     
-    global file_path
-    with open(file_path, "r") as f:
+    global names_path
+    with open(names_path, "r") as f:
         data = f.read().splitlines()
     counter = 1
     for i in data:
@@ -140,8 +140,8 @@ def play_random():
     """
     Plays a random song from the folder
     """
-    global file_path, path
-    with open(file_path, "r") as f:
+    global names_path, path
+    with open(names_path, "r") as f:
         names = f.read().splitlines()
     
     while True:
@@ -168,7 +168,7 @@ def play_song():
     Plays a specific song from the folder
     """
     
-    global file_path, path
+    global path
     while True:
         data = show_db()
 
@@ -207,7 +207,7 @@ def del_songs():
     Deletes songs of the user's choice
     """
     
-    global file_path, path
+    global path
     while True:
         data = show_db()
         
@@ -236,15 +236,65 @@ def del_songs():
 
 
 def add_artist():
-    pass
+    global artists_path
+    artist_name = input("Enter the name of the artist you want to add: ").lower()
+    
+    with open(artists_path, "r") as artists:
+        data = artists.read()
+    if artist_name in data:
+        print("Artist is already exist")
+        return
+    
+    with open(artists_path, "a") as artists:
+        artists.write(f"{artist_name}\n")
 
 
 def play_artist():
-    pass
+    global artists_path, names_path, path
+
+    with open(artists_path, "r") as artist:
+        artists = artist.read().splitlines()
+    index = 1
+    for artist in artists:
+        print(f"{index}. {artist.title()}")
+        index +=1
+
+    try:
+        chosen_artist = int(input("Enter the number according to your choice: "))
+        artist_name = artists[chosen_artist - 1]
+        songs = []
+        with open(names_path, "r") as f:
+            data = f.read().splitlines()
+
+        for song in data:
+            if artist_name in song.lower():
+                songs.append(song)
+
+        while True:
+            song_name = random.choice(songs)
+            song_path = f"{path}\{song_name}.mp3"
+            print(f"Playing: {song_name}")
+            p = multiprocessing.Process(target=playsound, args=(song_path,))
+            p.start()
+            print("Enter next, stop or background")
+            a = input("-> ").lower()
+            if a == "next":
+                p.terminate()
+                continue
+            elif a == "stop":
+                p.terminate()
+                break
+            elif a == "background":
+                break
+            p.terminate()
+    except:
+        print("The number you entered is invalid")
+        return
 
 
 def main():
-    while True:
+    choice = 0
+    while choice != 8:
         choice = menu()
         
         if choice == 1:
@@ -267,9 +317,6 @@ def main():
         
         elif choice == 7:
             play_artist()
-
-        elif choice == 8:
-            break
 
 
 if __name__ == "__main__":
