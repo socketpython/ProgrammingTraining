@@ -11,12 +11,15 @@ path = r"C:\Users\Elad_Levi\Desktop\Music" # enter here you music folder's path
 file_path = r"C:\Users\Elad_Levi\Desktop\Music\py_cache\names.txt" # enter here you music DB's path
 
 options = ["Download YouTube video", "Show the music in the DB",
-           "Play random music", "Delete song",
+           "Play random music", "Delete song", "Play specific song",
+           "Add artist", "Play music by artist",
            "Exit the program"]
 
 
 def update_db(data):
     global file_path
+
+    data.sort()
     res = ""
     for i in data:
         res += f"{i}\n"
@@ -160,6 +163,45 @@ def play_random():
         p.terminate()
 
 
+def play_song():
+    """
+    Plays a specific song from the folder
+    """
+    
+    global file_path, path
+    while True:
+        data = show_db()
+
+        valid = False
+        while not valid:
+            song_num = int(input("Enter the number of the song you want to play: "))
+            if 0 < song_num <= len(data):
+                valid = True
+            else:
+                print("The number you entered is invalid")
+        
+        song_name = f"{data.pop(song_num - 1)}.mp3"
+        song_path = f"{path}\{song_name}"
+        if os.path.exists(song_path):
+            print(f"Playing: {song_name}")
+            p = multiprocessing.Process(target=playsound, args=(song_path,))
+            p.start()
+            print("Enter next, stop or background")
+            a = input("-> ").lower()
+            if a == "next":
+                p.terminate()
+                continue
+            elif a == "stop":
+                p.terminate()
+                break
+            elif a == "background":
+                break
+            p.terminate()
+        else:
+            print("The file does not exist")
+        
+
+
 def del_songs():
     """
     Deletes songs of the user's choice
@@ -191,7 +233,15 @@ def del_songs():
             continue
         elif choice == "n":
             break
-    
+
+
+def add_artist():
+    pass
+
+
+def play_artist():
+    pass
+
 
 def main():
     while True:
@@ -210,6 +260,15 @@ def main():
             del_songs()
         
         elif choice == 5:
+            play_song()
+        
+        elif choice == 6:
+            add_artist()
+        
+        elif choice == 7:
+            play_artist()
+
+        elif choice == 8:
             break
 
 
