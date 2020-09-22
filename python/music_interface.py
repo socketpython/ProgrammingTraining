@@ -1,4 +1,14 @@
+# music_interface.py
+#
+# Programmer   : Elad L
+# Date         : 22/09/2020
+#
+# 
+# ---------------------------------------------------
+
+
 # install youtube-dl, requests, playsound via pip install
+# Imports
 import os
 import youtube_dl
 import requests
@@ -7,6 +17,7 @@ import random
 import multiprocessing
 
 
+# Constants
 path = r"C:\Users\Elad_Levi\Desktop\Music" # enter here you music folder's path
 names_path = r"C:\Users\Elad_Levi\Desktop\Music\py_cache\names.txt" # enter here you music DB's path
 artists_path = r"C:\Users\Elad_Levi\Desktop\Music\py_cache\artists.txt" # enter here you artist DB's path
