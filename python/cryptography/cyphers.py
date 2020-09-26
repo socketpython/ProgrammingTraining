@@ -13,20 +13,20 @@ def encrypt_mono(key, plain_txt):
         temp.remove(letter)
     
     new_abc = list(key) + temp
-    cypher_dict = dict(zip(abc, new_abc))
+    cipher_dict = dict(zip(abc, new_abc))
 
-    cypher_txt = ""
+    cipher_txt = ""
     for letter in plain_txt:
         try:
-            cypher_txt += cypher_dict[letter]
+            cipher_txt += cipher_dict[letter]
         except:
-            cypher_txt += letter
+            cipher_txt += letter
 
-    return cypher_txt
+    return cipher_txt
 
 
 # פענוח צופן מונואלפביתי
-def decrypt_mono(key, cypher_txt):
+def decrypt_mono(key, cipher_txt):
     global abc
     
     temp = abc[:]
@@ -34,12 +34,12 @@ def decrypt_mono(key, cypher_txt):
         temp.remove(letter)
     
     new_abc = list(key) + temp
-    cypher_dict = dict(zip(new_abc, abc))
+    cipher_dict = dict(zip(new_abc, abc))
 
     plain_txt = ""
-    for letter in cypher_txt:
+    for letter in cipher_txt:
         try:
-            plain_txt += cypher_dict[letter]
+            plain_txt += cipher_dict[letter]
         except:
             plain_txt += letter
 
@@ -51,29 +51,29 @@ def encrypt_ceaser(shift, plain_txt):
     global abc
     shift = len(abc) - shift
     new_abc = abc[shift:] + abc[:shift]
-    cypher_dict = dict(zip(new_abc, abc))
+    cipher_dict = dict(zip(new_abc, abc))
 
-    cypher_txt = ""
+    cipher_txt = ""
     for letter in plain_txt:
         try:
-            cypher_txt += cypher_dict[letter]
+            cipher_txt += cipher_dict[letter]
         except:
-            cypher_txt += letter
+            cipher_txt += letter
 
-    return cypher_txt
+    return cipher_txt
 
 
 # פענוח צופן קיסר
-def decrypt_ceaser(shift, cypher_txt):
+def decrypt_ceaser(shift, cipher_txt):
     global abc
     shift = len(abc) - shift
     new_abc = abc[shift:] + abc[:shift]
-    cypher_dict = dict(zip(abc, new_abc))
+    cipher_dict = dict(zip(abc, new_abc))
 
     plain_txt = ""
-    for letter in cypher_txt:
+    for letter in cipher_txt:
         try:
-            plain_txt += cypher_dict[letter]
+            plain_txt += cipher_dict[letter]
         except:
             plain_txt += letter
 
@@ -82,8 +82,6 @@ def decrypt_ceaser(shift, cypher_txt):
 
 # הצפנת צופן גדר
 def encrypt_fence(num_of_lines, plain_txt):
-    global abc
-
     temp = []
     for i in range(num_of_lines):
         temp.append([])
@@ -94,22 +92,94 @@ def encrypt_fence(num_of_lines, plain_txt):
             index = 0
         elif index < num_of_lines - 1:
             index += 1
+
+    cipher_txt = ""
     for line in temp:
-        print(" ".join(line))
+        cipher_txt += "".join(line)
+    return cipher_txt
+    
+
+# פענוח צופן גדר
+def decrypt_fence(num_of_lines, cipher_txt):
+    clear_txt = ""
+    length = len(cipher_txt)
+
+    left = 0
+    if length % num_of_lines == 0:
+        num = length / num_of_lines
+    else:
+        num = (length // num_of_lines) + 1
+        left = length % num_of_lines
+
+    a = []
+    for i in range(1, num_of_lines + 1):
+        if i <= left:
+            a.append(list(cipher_txt[:num]))
+            cipher_txt = cipher_txt[num:]
+        else:
+            a.append(list(cipher_txt[:num - 1]))
+            cipher_txt = cipher_txt[num - 1:]
+    
+    clear_txt = ""
+    for i in range(length):
+        for j in range(num_of_lines):
+            try:
+                clear_txt += a[j][i]
+            except:
+                break
+    return clear_txt
 
 
-key = "phoenix"
-shift = 7
-plain_txt = "python is the best language"
+def mono():
+    print("Mono cipher:\n")
+    choice = input("Encrypt or Decrypt? (e/d) ").lower()
+    key = input("Enter the key: ")
+    txt = input("Enter the text: ")
+    if choice == "e":
+        print(encrypt_mono(key, txt))
+    elif choice == "d":
+        print(decrypt_mono(key, txt))
 
-print("Mono cypher:")
-cypher_txt = encrypt_mono(key, plain_txt)
-clear_txt = decrypt_mono(key, cypher_txt)
-print(f"\tCypher text: {cypher_txt}\n\tClear text: {clear_txt}\n")
 
-print("Ceaser cypher:")
-cypher_txt = encrypt_ceaser(shift, plain_txt)
-clear_txt = decrypt_ceaser(shift, cypher_txt)
-print(f"\tCypher text: {cypher_txt}\n\tClear text: {clear_txt}\n")
+def ceaser():
+    print("Ceaser cipher:\n")
+    choice = input("Encrypt or Decrypt? (e/d) ").lower()
+    shift = int(input("Enter the shift number: "))
+    txt = input("Enter the text: ")
+    if choice == "e":
+        print(encrypt_ceaser(shift, txt))
+    elif choice == "d":
+        print(decrypt_ceaser(shift, txt))
 
-encrypt_fence(3, plain_txt)
+
+def fence():
+    print("Fence cipher:\n")
+    choice = input("Encrypt or Decrypt? (e/d) ").lower()
+    num_of_lines = int(input("Enter the number of lines: "))
+    txt = input("Enter the text: ")
+    if choice == "e":
+        print(encrypt_ceaser(num_of_lines, txt))
+    elif choice == "d":
+        print(decrypt_ceaser(num_of_lines, txt))
+
+
+def main():
+    options = ["mono", "ceaser", "fence", "exit"]
+
+    choice = 0
+    while choice != len(options):
+        index = 1
+        for option in options:
+            print(f"{index}. {option}")
+            index += 1
+        choice = int(input("Enter the number according to the cipher you want: "))
+        if choice == 1:
+            mono()
+        elif choice == 2:
+            ceaser()
+        elif choice == 3:
+            fence()
+
+
+if __name__ == "__main__":
+    main()
