@@ -18,9 +18,12 @@ import multiprocessing
 
 
 # Constants
-path = r"C:\Users\Elad_Levi\Desktop\Music" # enter here you music folder's path
-names_path = r"C:\Users\Elad_Levi\Desktop\Music\py_cache\names.txt" # enter here you music DB's path
-artists_path = r"C:\Users\Elad_Levi\Desktop\Music\py_cache\artists.txt" # enter here you artist DB's path
+# enter here you music folder's path
+path = r"C:\Users\Elad_Levi\Desktop\Music"
+# enter here you music DB's path
+names_path = r"C:\Users\Elad_Levi\Desktop\Music\py_cache\names.txt"
+# enter here you artist DB's path
+artists_path = r"C:\Users\Elad_Levi\Desktop\Music\py_cache\artists.txt" 
 options = ["Download YouTube video", "Show the music in the DB",
            "Play random music", "Delete song", "Play specific song",
            "Add artist", "Play music by artist",
