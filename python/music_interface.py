@@ -18,11 +18,11 @@ import multiprocessing
 
 
 # Constants
-# enter here you music folder's path
+# enter here your music folder's path
 path = r"C:\Users\Elad_Levi\Desktop\Music"
-# enter here you music DB's path
+# enter here your music DB's path
 names_path = r"C:\Users\Elad_Levi\Desktop\Music\py_cache\names.txt"
-# enter here you artist DB's path
+# enter here your artist DB's path
 artists_path = r"C:\Users\Elad_Levi\Desktop\Music\py_cache\artists.txt" 
 options = ["Download YouTube video", "Show the music in the DB",
            "Play random music", "Delete song", "Play specific song",
@@ -150,6 +150,24 @@ def show_db():
     return data
 
 
+def play_song(song_name, song_path):
+    print(f"Playing: {song_name}")
+    p = multiprocessing.Process(target=playsound, args=(song_path,))
+    p.start()
+    print("Enter next(n), stop(s) or background(b)")
+    a = input("-> ").lower()
+    if a == "next" or a == "n":
+        p.terminate()
+        return True
+    elif a == "stop" or a == "s":
+        p.terminate()
+        return False
+    elif a == "background" or a == "b":
+        return False
+    p.terminate()
+    return True
+
+
 def play_random():
     """
     Plays a random song from the folder
@@ -161,23 +179,12 @@ def play_random():
     while True:
         song_name = random.choice(names)
         song_path = f"{path}\{song_name}.mp3"
-        print(f"Playing: {song_name}")
-        p = multiprocessing.Process(target=playsound, args=(song_path,))
-        p.start()
-        print("Enter next, stop or background")
-        a = input("-> ").lower()
-        if a == "next":
-            p.terminate()
-            continue
-        elif a == "stop":
-            p.terminate()
+        res = play_song(song_name, song_path)
+        if not res:
             break
-        elif a == "background":
-            break
-        p.terminate()
 
 
-def play_song():
+def play_specific():
     """
     Plays a specific song from the folder
     """
@@ -197,20 +204,9 @@ def play_song():
         song_name = f"{data.pop(song_num - 1)}.mp3"
         song_path = f"{path}\{song_name}"
         if os.path.exists(song_path):
-            print(f"Playing: {song_name}")
-            p = multiprocessing.Process(target=playsound, args=(song_path,))
-            p.start()
-            print("Enter next, stop or background")
-            a = input("-> ").lower()
-            if a == "next":
-                p.terminate()
-                continue
-            elif a == "stop":
-                p.terminate()
+            res = play_song(song_name, song_path)
+            if not res:
                 break
-            elif a == "background":
-                break
-            p.terminate()
         else:
             print("The file does not exist")
         
@@ -268,6 +264,10 @@ def play_artist():
 
     with open(artists_path, "r") as artist:
         artists = artist.read().splitlines()
+    artists.sort()
+    with open(artists_path, "w") as artist:
+        artist.write("\n".join(artists))
+    
     index = 1
     for artist in artists:
         print(f"{index}. {artist.title()}")
@@ -287,20 +287,9 @@ def play_artist():
         while True:
             song_name = random.choice(songs)
             song_path = f"{path}\{song_name}.mp3"
-            print(f"Playing: {song_name}")
-            p = multiprocessing.Process(target=playsound, args=(song_path,))
-            p.start()
-            print("Enter next, stop or background")
-            a = input("-> ").lower()
-            if a == "next":
-                p.terminate()
-                continue
-            elif a == "stop":
-                p.terminate()
+            res = play_song(song_name, song_path)
+            if not res:
                 break
-            elif a == "background":
-                break
-            p.terminate()
     except:
         print("The number you entered is invalid")
         return
@@ -321,7 +310,7 @@ def main():
             play_random()
 
         elif choice == 4:
-            del_songs()
+            play_specific()
         
         elif choice == 5:
             play_song()
