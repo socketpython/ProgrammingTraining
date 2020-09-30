@@ -310,10 +310,10 @@ def main():
             play_random()
 
         elif choice == 4:
-            play_specific()
+            del_songs()
         
         elif choice == 5:
-            play_song()
+            play_specific()
         
         elif choice == 6:
             add_artist()
