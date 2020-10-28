@@ -1,8 +1,17 @@
+# FileScanner.py
+#
+# Programmer   : Elad L
+# Student no.  : 217
+# Date         : 03/10/2020
+#
+# ---------------------------------------------------
+
+# Imports
 import argparse
 import concurrent.futures
 import os
 
-
+# Constants
 extensions = {}
 res = ""
 counter = 0
@@ -32,19 +41,23 @@ def going_through_dir(path, exts):
     return exts
  
 
-print(f"{'-' * decor}FileScanner{'-' * decor}")
-for folder in folders:
-    with concurrent.futures.ThreadPoolExecutor() as executer:
-        extensions = executer.submit(going_through_dir, folder, extensions).result()
+def main():
+    print(f"{'-' * decor}FileScanner{'-' * decor}")
+    for folder in folders:
+        with concurrent.futures.ThreadPoolExecutor() as executer:
+            extensions = executer.submit(going_through_dir, folder, extensions).result()
 
-for i in extensions.items():
-    counter += i[1]
+    for i in extensions.items():
+        counter += i[1]
 
-for i in extensions.items():
-    ext = i[0]
-    amount = i[1]
-    percent = int((amount / counter) * 100)
-    res += f"{ext.ljust(10)} - {amount} files ({percent}%)\n"
+    for i in extensions.items():
+        ext = i[0]
+        amount = i[1]
+        percent = int((amount / counter) * 100)
+        res += f"{ext.ljust(10)} - {amount} files ({percent}%)\n"
 
-print(res[:-1])
-print(f"{'-' * (2 * decor + 11)}")
+    print(res[:-1])
+    print(f"{'-' * (2 * decor + 11)}")
+
+if __name__ == "__main__":
+    main()

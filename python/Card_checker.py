@@ -1,3 +1,12 @@
+# card_checker.py
+#
+# Programmer   : Elad L
+# Student no.  : 217
+# Date         : 03/10/2020
+#
+# ---------------------------------------------------
+
+# Constants
 record_path = r"C:\Logs\report.txt"
 password_path = r"C:\Logs\password.txt"
 

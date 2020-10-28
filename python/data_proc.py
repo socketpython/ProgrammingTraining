@@ -1,3 +1,12 @@
+# data_proc.py
+#
+# Programmer   : Elad L
+# Student no.  : 217
+# Date         : 03/10/2020
+#
+# ---------------------------------------------------
+
+# Imports
 from functools import reduce
 
 

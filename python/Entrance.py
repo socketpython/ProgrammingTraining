@@ -1,3 +1,12 @@
+# entrance.py
+#
+# Programmer   : Elad L
+# Student no.  : 217
+# Date         : 03/10/2020
+#
+# ---------------------------------------------------
+
+# Imports
 UNITS = ["1133", "2222", "4546", "7878", "9999", "1919"]
 incidents = ["standard malware", "apt", "live intruder", "data leakage"]
 events = {}

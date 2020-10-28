@@ -1,7 +1,16 @@
+# countdown.py
+#
+# Programmer   : Elad L
+# Student no.  : 217
+# Date         : 03/10/2020
+#
+# ---------------------------------------------------
+
+# Imports
 import argparse
 import time
 
-
+# Constants
 parser = argparse.ArgumentParser()
 parser.add_argument('-t', type=int,
                    help='Enter the number of seconds for the countdown')
@@ -15,5 +24,10 @@ def countdown(n):
         time.sleep(1)
 
 
-seconds = args.t
-countdown(seconds)
+def main():
+    seconds = args.t
+    countdown(seconds)
+    
+
+if __name__ == "__main__":
+    main()
