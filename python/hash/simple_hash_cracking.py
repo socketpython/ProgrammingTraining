@@ -4,7 +4,7 @@ import hashlib
 def main():
     is_success = False
     pass_hash = "c62d929e7b7e7b6165923a5dfc60cb56" #q1w2e3r4
-    word_list = "passwords_dict.txt" # the path to the dictionary
+    word_list = r"hash\passwords_dict.txt" # the path to the dictionary
 
     try:
         with open(word_list, "r") as pass_file:
