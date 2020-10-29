@@ -5,7 +5,6 @@ from paramiko import SSHClient
 from paramiko.ssh_exception import AuthenticationException as AuthFail
 
 # Constants
-
 USER_NAMES  = ["root"]
 LENGTH      = 15
 READ        = "r"
